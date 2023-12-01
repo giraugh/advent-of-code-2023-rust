@@ -1,6 +1,3 @@
-pub const SAMPLE_ANS_PT1: &str = "\"todo\"";
-pub const SAMPLE_ANS_PT2: &str = "\"todo\"";
-
 type PuzzleInput = String;
 
 /// Parse puzzle input
@@ -16,4 +13,17 @@ pub fn solve_pt1(input: PuzzleInput) -> impl std::fmt::Debug {
 /// Solve puzzle part 2
 pub fn solve_pt2(input: PuzzleInput) -> impl std::fmt::Debug {
     "todo"
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    /// Test part 1 with sample
+    #[test]
+    fn part_1_sample() {}
+
+    /// Test part 2 with sample
+    #[test]
+    fn part_2_sample() {}
 }
