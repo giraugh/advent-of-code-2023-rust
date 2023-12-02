@@ -10,7 +10,7 @@ use nom::{
     IResult,
 };
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Ord, derive_more::Sum, derive_more::Add)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, derive_more::Sum, derive_more::Add)]
 pub struct Rgb(u32, u32, u32);
 
 impl Rgb {
@@ -19,15 +19,21 @@ impl Rgb {
     }
 }
 
+impl Ord for Rgb {
+    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+        if self.eq(other) {
+            Ordering::Equal
+        } else if self.0 > other.0 || self.1 > other.1 || self.2 > other.2 {
+            Ordering::Greater
+        } else {
+            Ordering::Less
+        }
+    }
+}
+
 impl PartialOrd for Rgb {
     fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
-        if self.eq(other) {
-            Some(Ordering::Equal)
-        } else if self.0 > other.0 || self.1 > other.1 || self.2 > other.2 {
-            Some(Ordering::Greater)
-        } else {
-            Some(Ordering::Less)
-        }
+        Some(self.cmp(other))
     }
 }
 
