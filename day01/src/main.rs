@@ -1,3 +1,5 @@
+#![feature(int_roundings)]
+
 mod puzzle;
 
 use puzzle::*;
