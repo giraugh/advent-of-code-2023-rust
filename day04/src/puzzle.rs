@@ -1,12 +1,13 @@
+use itertools::Itertools;
 use nom::{
+    branch::alt,
     bytes::complete::tag,
-    character::complete::{u32, multispace1},
-    combinator::{map, all_consuming},
+    character::complete::{multispace1, u32},
+    combinator::{all_consuming, map},
     multi::separated_list1,
     sequence::{preceded, tuple},
-    IResult, branch::alt,
+    IResult,
 };
-use itertools::Itertools;
 
 #[derive(Clone, Debug)]
 pub struct Card {
@@ -20,7 +21,7 @@ impl Card {
             .iter()
             .filter(|num| self.winning.contains(num))
             .count()
-    } 
+    }
 
     fn points(&self) -> u32 {
         let count = self.winning_numbers();
@@ -31,21 +32,21 @@ impl Card {
         }
     }
 
-    #[rustfmt::skip]
     fn parse(input: &str) -> IResult<&str, Self> {
-        map(tuple((
-            preceded(tuple((tag("Card"), multispace1)), u32),
-            preceded(
-                alt((tag(":  "), tag(": "))),
-                separated_list1(multispace1, u32),
-            ),
-            preceded(
-                alt((tag(" |  "), tag(" | "))),
-                separated_list1(multispace1, u32)
-            )
-        )), |(_, winning, owned)| Self { 
-                winning, owned
-            })(input)
+        map(
+            tuple((
+                preceded(tuple((tag("Card"), multispace1)), u32),
+                preceded(
+                    alt((tag(":  "), tag(": "))),
+                    separated_list1(multispace1, u32),
+                ),
+                preceded(
+                    alt((tag(" |  "), tag(" | "))),
+                    separated_list1(multispace1, u32),
+                ),
+            )),
+            |(_, winning, owned)| Self { winning, owned },
+        )(input)
     }
 }
 
@@ -53,7 +54,10 @@ type PuzzleInput = Vec<Card>;
 
 /// Parse puzzle input
 pub fn parse_input(input_text: &str) -> PuzzleInput {
-    input_text.lines().map(|l| all_consuming(Card::parse)(l).unwrap().1).collect_vec()
+    input_text
+        .lines()
+        .map(|l| all_consuming(Card::parse)(l).unwrap().1)
+        .collect_vec()
 }
 
 /// Solve puzzle part 1
