@@ -6,7 +6,7 @@ use nom::{
     sequence::{preceded, separated_pair, terminated, tuple},
     IResult,
 };
-use tqdm::Iter;
+use rayon::prelude::*;
 
 type Category = String;
 
@@ -143,8 +143,8 @@ pub fn solve_pt1(input: PuzzleInput) -> impl std::fmt::Debug {
 /// Solve puzzle part 2
 pub fn solve_pt2(input: PuzzleInput) -> impl std::fmt::Debug {
     (0..1_000_000_000) // lol
-        .tqdm()
-        .find(|&location| {
+        .into_par_iter()
+        .find_first(|&location| {
             // Get possible seed by going backwards
             let possible_seed = input.back_through_all(location);
             debug_assert_eq!(input.through_all(possible_seed), location);
