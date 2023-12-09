@@ -1,4 +1,5 @@
 #![feature(int_roundings)]
+#![feature(iter_map_windows)]
 
 mod puzzle;
 
