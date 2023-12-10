@@ -4,6 +4,7 @@ prepare DAY:
 	ln ./main.tmpl.rs ./day{{DAY}}/src/main.rs
 	cp ./puzzle.tmpl.rs ./day{{DAY}}/src/puzzle.rs
 	touch ./day{{DAY}}/input.txt
+	touch ./day{{DAY}}/sample.txt
 
 test DAY:
 	cd day{{DAY}} && cargo test

@@ -25,13 +25,14 @@ mod test {
     #[test]
     fn part_1_sample() {
         let input = parse_input(SAMPLE_TEXT);
-        assert_eq!(format!("{:?}", solve_pt1(input)), todo!());
+        assert_eq!(format!("{:?}", solve_pt1(input)), "");
     }
 
     /// Test part 2 with sample
-    #[test]
+    // #[test] // <----- UNCOMMENT THIS EWAN
+    #[allow(unused)]
     fn part_2_sample() {
         let input = parse_input(SAMPLE_TEXT);
-        assert_eq!(format!("{:?}", solve_pt2(input)), todo!());
+        assert_eq!(format!("{:?}", solve_pt2(input)), "");
     }
 }
