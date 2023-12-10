@@ -240,8 +240,8 @@ impl Pipes {
         // Fill in start tile
         self.fill_start_tile();
 
-        // Create higher res occlusion graph
-        let pipe_subgrid: Vec<Vec<[[u8; 3]; 3]>> = self
+        // Create higher res mask
+        let subgrid_mask: Vec<Vec<[[u8; 3]; 3]>> = self
             .pipe_grid
             .iter()
             .enumerate()
@@ -260,7 +260,7 @@ impl Pipes {
             })
             .collect_vec();
 
-        let pipe_subgrid = PipeSubgrid(pipe_subgrid);
+        let subgrid_mask = Subgrid(subgrid_mask);
 
         // Seed the flood fill at the edges
         let ver_edges = (0..self.width).flat_map(|x| vec![pos!(x, 0), pos!(x, self.height - 1)]);
@@ -288,17 +288,18 @@ impl Pipes {
             // Add children
             frontier.extend(
                 pos.neighbours()
-                    .filter(|p| pipe_subgrid.inbounds(p))
-                    .filter(|p| !pipe_subgrid.filled(p))
+                    .filter(|p| subgrid_mask.inbounds(p))
+                    .filter(|p| !subgrid_mask.filled(p))
                     .filter(|p| !visited.contains(p)),
             );
         }
 
+        // Fun output :)
         for y in 0..self.height * 3 {
             for x in 0..self.width * 3 {
                 if visited.contains(&pos!(x, y)) {
                     print!("*");
-                } else if pipe_subgrid.filled(&pos!(x, y)) {
+                } else if subgrid_mask.filled(&pos!(x, y)) {
                     print!("o");
                 } else {
                     print!(".");
@@ -320,9 +321,9 @@ impl Pipes {
     }
 }
 
-struct PipeSubgrid(Vec<Vec<[[u8; 3]; 3]>>);
+struct Subgrid(Vec<Vec<[[u8; 3]; 3]>>);
 
-impl PipeSubgrid {
+impl Subgrid {
     fn filled(&self, pos: &Pos) -> bool {
         let (x, y) = (pos.0 / 3, pos.1 / 3);
         let (sx, sy) = (pos.0 % 3, pos.1 % 3);
