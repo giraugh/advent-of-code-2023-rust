@@ -113,7 +113,8 @@ impl Record {
             }
 
             // This spring is damaged. This starts a span if not already started and decrements
-            // the current group count.
+            // the current group count. If we had already finished the group then this branch is
+            // invalid
             Some(&SpringCondition::Damaged) => {
                 let (_, tail) = springs.split_at(1);
                 let mut groups: Vec<_> = groups.into();
