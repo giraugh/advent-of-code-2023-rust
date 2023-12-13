@@ -67,6 +67,8 @@ impl AshGrid {
         }
     }
 
+    /// Get all of the spans which are equal distance away from a given line
+    /// i.e spans which should match when reflected by a line at `>i-1:i<`
     fn opposing_spans(
         &self,
         dir: Dir,
