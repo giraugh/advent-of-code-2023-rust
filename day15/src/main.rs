@@ -1,5 +1,6 @@
 #![feature(int_roundings)]
 #![feature(iter_map_windows)]
+#![feature(binary_heap_as_slice)]
 
 mod puzzle;
 

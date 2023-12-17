@@ -185,12 +185,12 @@ impl<T> Grid<T> {
     pub fn print_cells<F, O>(&self, fmt_fn: F)
     where
         O: std::fmt::Display,
-        F: Fn(usize, usize, &T) -> O,
+        F: Fn(GridPos, &T) -> O,
     {
         println!("Grid(");
         for y in 0..self.height {
             for x in 0..self.width {
-                print!("{}", fmt_fn(x, y, &self.grid[y][x]));
+                print!("{}", fmt_fn(pos!(x, y), &self.grid[y][x]));
             }
             println!();
         }
